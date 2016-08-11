@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DEVICE ("wlan0")
+#define DEVICE ("wlan1")
 #define QUEUE_HOSTNAME ("localhost")
 #define QUEUE_PORT (5672)
 #define QUEUE_EXCHANGE_NAME ("offix")

@@ -41,5 +41,6 @@ router.get('/admin', utils.isAdmin, AdminController.index);
 // api
 
 router.get('/api/users', utils.apiAuthed, ApiController.users);
+router.get('/api/devices', utils.apiAuthed, ApiController.devices);
 
 module.exports = router;
