@@ -12,22 +12,15 @@ deviceSchema = new mongoose.Schema({
 
 deviceSchema.statics.seen = function (address) {
     var conditions = {mac: address};
-    self.findOne(conditions, function(err, result) {
-            if(result) {
-                self.update(conditions, {lastSeen: new Date()}, function (err, count) {
-                    debug('A device has been updated: ' + conditions.mac);
-                    //callback(err, result, true);
-                });
-            }else{
-                if(err){
-                    debug(err);
-                }else{
-                    var obj = new Device(conditions);
-                    obj.save(function(err) {
-                        debug('A device has been created: ' + conditions.mac);
-                        //callback(err, obj, true);
-                    });
+
+    this.findOrCreate(conditions, {lastSeen: new Date()}, function (err, device, created) {
+        if (!created) {
+            device.lastSeen = new Date();
+            device.save(function (err) {
+                if (err) {
+                    console.log('err: ' + err);
                 }
+            });
         }
     });
 };
