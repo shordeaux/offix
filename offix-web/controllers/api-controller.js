@@ -42,7 +42,7 @@ ApiController.devices = function(req, res) {
     var data = _.map(sorted, function(device) {
       return {
         mac: device.mac,
-        lastSeen: new Date(device.lastSeen) || null
+        lastSeen: device.lastSeen || null
       };
     });
     res.json(data);

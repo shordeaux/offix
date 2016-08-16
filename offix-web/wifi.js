@@ -7,12 +7,15 @@ var Device = require('./models/device');
 
 var wifi = module.exports = {};
 
-var consume = function(db, data) {
-  if (utils.isMacAddress(data)) {
-    User.seen(data);
-    Device.seen(data);
-  }
-};
+// var consume = function(db, data) {
+//   if (utils.isMacAddress(data)) {
+//     console.log('it is a mac adress ' + data);
+//     Device.seen(data);
+//     User.seen(data);
+//   }else{
+//     console.log('not a mac address' + data);
+//   }
+// };
 
 wifi.start = function(db) {
   var context = rabbit.createContext();
@@ -22,7 +25,14 @@ wifi.start = function(db) {
     sub.connect(config.EXCHANGE_NAME, '', function() {
       sub.on('data', function(data) {
         console.log('got data from rabbitmq: ' + data);
-          consume(db, data);
+        console.log(utils.isMacAddress(data));
+        if (utils.isMacAddress(data)) {
+          console.log('it is a mac adress ' + data);
+          Device.seen(data);
+          User.seen(data);
+        }else{
+          console.log('not a mac address' + data);
+        }
       });
     });
   });
